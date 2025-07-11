@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { OpenMeteoResponse } from '../types/DashboardTypes';
+import type { City } from '../data/cities';
 
 interface DataFetcherOutput {
     data: OpenMeteoResponse | null;
@@ -7,7 +8,11 @@ interface DataFetcherOutput {
     error: string | null;
 }
 
-export default function DataFetcher() : DataFetcherOutput {
+interface DataFetcherProps {
+    city: City;
+}
+
+export default function DataFetcher({ city }: DataFetcherProps) : DataFetcherOutput {
 
     const [data, setData] = useState<OpenMeteoResponse | null>(null);
     const [loading, setLoading] = useState(true);
@@ -15,12 +20,15 @@ export default function DataFetcher() : DataFetcherOutput {
 
     useEffect(() => {
 
-        // Reemplace con su URL de la API de Open-Meteo obtenida en actividades previas
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m&timezone=America%2FChicago`;
+        // URL dinámica basada en la ciudad seleccionada
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.latitude}&longitude=${city.longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m&timezone=${city.timezone}`;
         
         const fetchData = async () => {
 
             try {
+
+                setLoading(true);
+                setError(null);
 
                 const response = await fetch(url);
 
@@ -46,7 +54,7 @@ export default function DataFetcher() : DataFetcherOutput {
 
         fetchData();
 
-    }, []); // El array vacío asegura que el efecto se ejecute solo una vez después del primer renderizado
+    }, [city]); // Ahora el efecto se ejecuta cuando cambia la ciudad
 
     return { data, loading, error };
 

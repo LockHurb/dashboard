@@ -1,19 +1,33 @@
 import { Grid } from '@mui/material';
+import { useState } from 'react';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
 import SelectorUI from './components/SelectorUI';
 import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
+import TableUI from './components/TableUI';
+import ChartUI from './components/ChartUI';
+import { getDefaultCity } from './data/cities';
+import type { City } from './data/cities';
 
 function App() {
-   const dataFetcherOutput = DataFetcher();
+   // Estado para manejar la ciudad seleccionada
+   const [selectedCity, setSelectedCity] = useState<City>(getDefaultCity());
+   
+   // Fetch de datos basado en la ciudad seleccionada
+   const dataFetcherOutput = DataFetcher({ city: selectedCity });
+   
+   const handleCityChange = (city: City) => {
+      setSelectedCity(city);
+   };
+
    return (
       <Grid container spacing={5} justifyContent="center" alignItems="center">
 
          {/* Encabezado */}
          <Grid style={{ width: '100%' }}>
             <Grid container justifyContent="center" alignItems="center">
-               <HeaderUI />
+               <HeaderUI city={selectedCity} />
             </Grid>
          </Grid>
 
@@ -27,7 +41,10 @@ function App() {
 
             {/* Selector */}
             <Grid>
-               <SelectorUI />
+               <SelectorUI 
+                  onCityChange={handleCityChange}
+                  selectedCity={selectedCity}
+               />
             </Grid>
 
             {/* Indicadores */}
@@ -81,12 +98,12 @@ function App() {
 
             {/* Gráfico */}
             <Grid>
-               Elemento: Gráfico
+               <ChartUI data={dataFetcherOutput.data} />
             </Grid>
 
             {/* Tabla */}
             <Grid>
-               Elemento: Tabla
+               <TableUI data={dataFetcherOutput.data} />
             </Grid>
 
             {/* Información adicional */}
