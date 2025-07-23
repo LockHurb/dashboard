@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, Box, Paper, Fade, Typography } from '@mui/material';
+import { CssBaseline, Box, Paper, Fade } from '@mui/material';
 import { useState } from 'react';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
