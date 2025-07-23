@@ -1,7 +1,5 @@
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select, { type SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
+import { FormControl, InputLabel, Select, MenuItem, Typography, Box } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material/Select';
 import { cities } from '../data/cities';
 import type { City } from '../data/cities';
 
@@ -20,32 +18,55 @@ export default function SelectorUI({ onCityChange, selectedCity }: SelectorUIPro
         }
     };
 
-    // Encontrar la clave de la ciudad seleccionada
     const selectedCityKey = Object.keys(cities).find(
         key => cities[key].name === selectedCity.name
     ) || '';
 
     return (
-        <FormControl fullWidth>
-            <InputLabel id="city-select-label">Ciudad</InputLabel>
-            <Select
-                labelId="city-select-label"
-                id="city-simple-select"
-                label="Ciudad"
-                onChange={handleChange}
-                value={selectedCityKey}
-            >
-                <MenuItem disabled><em>Seleccione una ciudad</em></MenuItem>
-                <MenuItem value={"guayaquil"}>Guayaquil</MenuItem>
-                <MenuItem value={"quito"}>Quito</MenuItem>
-                <MenuItem value={"manta"}>Manta</MenuItem>
-                <MenuItem value={"cuenca"}>Cuenca</MenuItem>
-            </Select>
-            {selectedCity && (
-                <p style={{ marginTop: '8px', textAlign: 'center' }}>
-                    Información del clima en <span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>{selectedCity.name}</span>
-                </p>
-            )}
-        </FormControl>
+        <Box>
+            <Typography variant="h6" sx={{ mb: 2, color: 'text.primary' }}>
+                🌍 Seleccionar Ciudad
+            </Typography>
+            
+            <FormControl fullWidth>
+                <InputLabel id="city-select-label">Ciudad</InputLabel>
+                <Select
+                    labelId="city-select-label"
+                    id="city-simple-select"
+                    label="Ciudad"
+                    onChange={handleChange}
+                    value={selectedCityKey}
+                    sx={{
+                        borderRadius: 2,
+                        '& .MuiOutlinedInput-root': {
+                            '&:hover fieldset': {
+                                borderColor: 'primary.main',
+                            },
+                        },
+                    }}
+                >
+                    {Object.keys(cities).map((cityKey) => (
+                        <MenuItem key={cityKey} value={cityKey}>
+                            📍 {cities[cityKey].name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+            
+            <Box sx={{ 
+                mt: 2, 
+                p: 2, 
+                background: 'linear-gradient(45deg, #f8fafc, #e2e8f0)',
+                borderRadius: 2,
+                textAlign: 'center'
+            }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 0.5 }}>
+                    Mostrando datos de:
+                </Typography>
+                <Typography variant="body1" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                    {selectedCity.name}
+                </Typography>
+            </Box>
+        </Box>
     );
 }
