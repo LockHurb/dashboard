@@ -50,32 +50,36 @@ const columns: GridColDef[] = [
    { 
       field: 'id', 
       headerName: 'ID', 
-      width: 80,
+      width: 60,
       sortable: true,
       type: 'number'
    },
    { 
       field: 'time', 
       headerName: 'Hora', 
-      width: 150,
+      flex: 0.8,
+      minWidth: 80,
       sortable: true
    },
    {
       field: 'temperature',
-      headerName: 'Temperatura 2m (°C)',
-      width: 160,
+      headerName: 'Temp. (°C)',
+      flex: 1,
+      minWidth: 100,
       type: 'number'
    },
    {
       field: 'wind_speed',
       headerName: 'Viento (km/h)',
-      width: 130,
+      flex: 1,
+      minWidth: 100,
       type: 'number'
    },
    {
       field: 'resumen',
-      headerName: 'Fecha (aaaa-mm-dd)',
-      width: 150,
+      headerName: 'Fecha',
+      flex: 1.2,
+      minWidth: 120,
       sortable: true
    }
 ];
@@ -85,7 +89,7 @@ export default function TableUI({ data }: TableUIProps) {
    const rows = data ? createTableRows(data) : [];
 
    return (
-      <Box sx={{ height: 400, width: '100%' }}>
+      <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
          <DataGrid
             rows={rows}
             columns={columns}
@@ -99,6 +103,32 @@ export default function TableUI({ data }: TableUIProps) {
             pageSizeOptions={[5, 10, 20]}
             disableRowSelectionOnClick
             loading={!data}
+            autoHeight={false}
+            sx={{
+               height: '100%',
+               width: '100%',
+               '& .MuiDataGrid-root': {
+                  border: 'none',
+               },
+               '& .MuiDataGrid-main': {
+                  '& .MuiDataGrid-columnHeaders': {
+                     backgroundColor: '#f5f5f5',
+                     fontSize: '0.875rem',
+                     fontWeight: 600,
+                  },
+                  '& .MuiDataGrid-cell': {
+                     fontSize: '0.875rem',
+                  },
+               },
+               '& .MuiDataGrid-footerContainer': {
+                  backgroundColor: '#fafafa',
+                  borderTop: '1px solid #e0e0e0',
+                  minHeight: '52px'
+               },
+               '& .MuiDataGrid-virtualScroller': {
+                  backgroundColor: '#fff',
+               }
+            }}
          />
       </Box>
    );

@@ -9,12 +9,10 @@ export default function IndicatorUI({ title, description }: IndicatorUIProps) {
     return (
         <Card sx={{ 
             height: '100%',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            color: 'white',
-            transition: 'transform 0.2s ease-in-out',
-            '&:hover': {
-                transform: 'translateY(-4px)',
-            }
+            background: '#fff',
+            color: '#222',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            // Eliminada la animación y el hover
         }}>
             <CardContent sx={{ p: 3, textAlign: 'center' }}>
                 <Typography 
@@ -34,7 +32,7 @@ export default function IndicatorUI({ title, description }: IndicatorUIProps) {
                     sx={{ 
                         fontWeight: 700,
                         fontSize: '2rem',
-                        textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                        textShadow: '0 2px 4px rgba(0,0,0,0.08)'
                     }}
                 >
                     {description}
